@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
+
 
 import re
 import string
 import unicodedata
 from multiprocessing.pool import ThreadPool
-from urlparse import parse_qs, urlparse
+from urllib.parse import parse_qs, urlparse
 
 from mopidy import backend
 from mopidy.models import Album, SearchResult, Track
@@ -39,7 +39,7 @@ def safe_url(uri):
     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
     safe_uri = unicodedata.normalize(
         'NFKD',
-        unicode(uri)
+        str(uri)
     ).encode('ASCII', 'ignore')
     return re.sub(
         '\s+',
@@ -185,7 +185,7 @@ class YouTubeLibraryProvider(backend.LibraryProvider):
                         tracks=[t for t in [resolve_url(search_query)] if t]
                     )
         else:
-            search_query = ' '.join(query.values()[0])
+            search_query = ' '.join(list(query.values())[0])
             logger.info("Searching YouTube for query '%s'", search_query)
             return SearchResult(
                 uri=search_uri,

@@ -1,4 +1,4 @@
-from __future__ import unicode_literals
+
 
 from mopidy_youtube import Extension
 
